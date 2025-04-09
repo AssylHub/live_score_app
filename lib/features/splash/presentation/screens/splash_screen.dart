@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:live_score_app/core/theme/app_colors.dart';
+import 'package:live_score_app/features/splash/presentation/screens/interests_screen.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -37,188 +38,15 @@ class _SplashScreenState extends State<SplashScreen>
 
     showMaterialModalBottomSheet(
       context: context,
+      backgroundColor: Colors.transparent,
       builder:
           (context) => SingleChildScrollView(
             controller: ModalScrollController.of(context),
+
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
-            child:
-                isSignIn
-                    ? Container(
-                      
-                      decoration: BoxDecoration(color: AppColors.secondary),
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Welcome",
-                            
-                            style: Theme.of(context).textTheme.headlineMedium,
-                          ),
-                          SizedBox(height: 20),
-                          TextField(
-                            controller: _emailController,
-
-                            decoration: InputDecoration(
-                              fillColor: AppColors.primary,
-                              filled: true,
-                              hintStyle: TextStyle(
-                                color: AppColors.slightlyGreyColor,
-                              ),
-                              prefixIconColor: AppColors.slightlyGreyColor,
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              hintText: "Email",
-                              prefixIcon: ImageIcon(
-                                AssetImage("assets/icons/Message.png"),
-                              ),
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          SizedBox(height: 10),
-                          TextField(
-                            controller: _passwordController,
-                            decoration: InputDecoration(
-                              fillColor: AppColors.primary,
-                              filled: true,
-                              hintStyle: TextStyle(
-                                color: AppColors.slightlyGreyColor,
-                              ),
-                              prefixIconColor: AppColors.slightlyGreyColor,
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              hintText: "Password",
-                              prefixIcon: ImageIcon(
-                                AssetImage("assets/icons/Password.png"),
-                              ),
-                              suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon: Icon(CupertinoIcons.eye_slash),
-                              ),
-                              suffixIconColor: AppColors.slightlyGreyColor,
-                            ),
-                            obscureText: true,
-                          ),
-                          SizedBox(height: 20),
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Remember me",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-
-                                Text(
-                                  "Forgot Password",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: double.infinity,
-                            height: 60,
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                backgroundColor: AppColors.buttonColor,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              child: FittedBox(child: Text("Sign in")),
-                            ),
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Don’t have account? ",
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-
-                              Text(
-                                "Sign UP",
-                                style: TextStyle(color: AppColors.buttonColor),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Sign Up",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          if (!isSignIn)
-                            TextField(
-                              controller: _nameController,
-                              decoration: InputDecoration(
-                                labelText: "Name",
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          SizedBox(height: 10),
-                          TextField(
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                              labelText: "Email",
-                              border: OutlineInputBorder(),
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          SizedBox(height: 10),
-                          TextField(
-                            controller: _passwordController,
-                            decoration: InputDecoration(
-                              labelText: "Password",
-                              border: OutlineInputBorder(),
-                            ),
-                            obscureText: true,
-                          ),
-                          SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (isSignIn) {
-                                print(
-                                  "Signing In with: ${_emailController.text}",
-                                );
-                              } else {
-                                print(
-                                  "Signing Up with: ${_nameController.text}, ${_emailController.text}",
-                                );
-                              }
-                              Navigator.pop(context); // Close bottom sheet
-                            },
-                            child: Text(isSignIn ? "Sign In" : "Sign Up"),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(double.infinity, 50),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+            child: isSignIn ? signInSheet() : signUpSheet(),
           ),
     );
   }
@@ -243,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen>
           child: Center(
             child: Column(
               children: [
-                Image.asset("assets/Group 3090.png"),
+                Image.asset("assets/images/splash_screen/Group 3090.png"),
                 SizedBox(height: 30),
                 Text(
                   "Dicover all  about sport",
@@ -287,6 +115,226 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget signInSheet() {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: AppColors.secondary,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        spacing: 20,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Welcome", style: Theme.of(context).textTheme.headlineMedium),
+          TextField(
+            controller: _emailController,
+
+            decoration: InputDecoration(
+              fillColor: AppColors.primary,
+              filled: true,
+              hintStyle: TextStyle(color: AppColors.slightlyGreyColor),
+              prefixIconColor: AppColors.slightlyGreyColor,
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: "Email",
+              prefixIcon: ImageIcon(AssetImage("assets/icons/Message.png")),
+            ),
+            keyboardType: TextInputType.emailAddress,
+          ),
+          TextField(
+            controller: _passwordController,
+            decoration: InputDecoration(
+              fillColor: AppColors.primary,
+              filled: true,
+              hintStyle: TextStyle(color: AppColors.slightlyGreyColor),
+              prefixIconColor: AppColors.slightlyGreyColor,
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: "Password",
+              prefixIcon: ImageIcon(AssetImage("assets/icons/Password.png")),
+              suffixIcon: IconButton(
+                onPressed: () {},
+                icon: Icon(CupertinoIcons.eye_slash),
+              ),
+              suffixIconColor: AppColors.slightlyGreyColor,
+            ),
+            obscureText: true,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Remember me",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+
+                Text("Forgot Password", style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+
+          SizedBox(
+            width: double.infinity,
+            height: 60,
+            child: TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InterestsScreen()),
+                );
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.buttonColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: FittedBox(child: Text("Sign in")),
+            ),
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Don’t have account? ",
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+
+              Text("Sign UP", style: TextStyle(color: AppColors.buttonColor)),
+            ],
+          ),
+
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  Widget signUpSheet() {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: AppColors.secondary,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Column(
+        spacing: 20,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Welcome", style: Theme.of(context).textTheme.headlineMedium),
+          TextField(
+            controller: _emailController,
+
+            decoration: InputDecoration(
+              fillColor: AppColors.primary,
+              filled: true,
+              hintStyle: TextStyle(color: AppColors.slightlyGreyColor),
+              prefixIconColor: AppColors.slightlyGreyColor,
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: "Email",
+              prefixIcon: ImageIcon(AssetImage("assets/icons/Message.png")),
+            ),
+            keyboardType: TextInputType.emailAddress,
+          ),
+          TextField(
+            controller: _passwordController,
+            decoration: InputDecoration(
+              fillColor: AppColors.primary,
+              filled: true,
+              hintStyle: TextStyle(color: AppColors.slightlyGreyColor),
+              prefixIconColor: AppColors.slightlyGreyColor,
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: "Password",
+              prefixIcon: ImageIcon(AssetImage("assets/icons/Password.png")),
+              suffixIcon: IconButton(
+                onPressed: () {},
+                icon: Icon(CupertinoIcons.eye_slash),
+              ),
+              suffixIconColor: AppColors.slightlyGreyColor,
+            ),
+            obscureText: true,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Remember me",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+
+                Text("Forgot Password", style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+
+          SizedBox(
+            width: double.infinity,
+            height: 60,
+            child: TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InterestsScreen()),
+                );
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.buttonColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: FittedBox(child: Text("Sign in")),
+            ),
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Don’t have account? ",
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+
+              Text("Sign UP", style: TextStyle(color: AppColors.buttonColor)),
+            ],
+          ),
+
+          SizedBox(height: 20),
+        ],
       ),
     );
   }
