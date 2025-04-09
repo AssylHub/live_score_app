@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
               Image.asset("assets/Group 3090.png"),
               Text(
                 "Dicover all about sport",
-                style: GoogleFonts.sourceSans3(fontSize: 50, ),
+                style: GoogleFonts.sourceSans3(fontSize: 50),
               ),
             ],
           ),
